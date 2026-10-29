@@ -280,3 +280,12 @@
 #app .demo-clock-control[open] .demo-clock-chevron{transform:rotate(180deg);}
 #app .demo-clock-hint{margin:10px 0 0;color:var(--chrome-ink);font-size:11px;line-height:1.5;}
 #app .demo-clock-control summary:focus-visible{outline:2px solid var(--chrome-gold);outline-offset:5px;border-radius:4px;}
+
+/* Clock fields inherit the selected event's sidebar palette. */
+#app .demo-clock-panel{gap:9px;padding:12px 0 0;margin-top:10px;border-top:1px solid color-mix(in srgb,var(--chrome-gold) 25%,transparent);border-radius:0;background:transparent;}
+#app .demo-clock-panel label{color:var(--chrome-ink-dim);font-size:10px;letter-spacing:.07em;}
+#app .demo-clock-panel :is(select,input){padding:10px;font-size:12px;line-height:1.5;border:1px solid color-mix(in srgb,var(--chrome-gold) 35%,transparent);border-radius:10px;background:color-mix(in srgb,var(--chrome-bg) 88%,var(--chrome-gold));color:var(--chrome-ink);color-scheme:dark;accent-color:var(--chrome-gold);}
+#app .demo-clock-panel select option{background:var(--chrome-bg);color:var(--chrome-ink);}
+#app .demo-clock-panel :is(select,input):focus-visible{outline:2px solid var(--chrome-gold);outline-offset:2px;}
+#app .demo-clock-actions .btn{border-color:color-mix(in srgb,var(--chrome-gold) 45%,transparent);border-radius:9px;color:var(--chrome-ink);}
+#app .demo-clock-actions #demo-clock-apply{background:var(--chrome-gold);color:var(--chrome-bg);font-weight:750;}

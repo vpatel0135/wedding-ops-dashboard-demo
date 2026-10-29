@@ -895,7 +895,7 @@ a{color:inherit;}
 .demo-clock-control summary::-webkit-details-marker{display:none;}
 .demo-clock-panel{display:flex; flex-direction:column; gap:7px; margin-top:8px; padding:10px; border-radius:12px; background:rgba(255,255,255,.07); box-sizing:border-box;}
 .demo-clock-panel label{font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--chrome-ink-dim); font-weight:700;}
-.demo-clock-panel select,.demo-clock-panel input{width:100%; min-width:0; padding:7px; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:#102e4d; color:white; font:inherit; box-sizing:border-box;}
+.demo-clock-panel select,.demo-clock-panel input{width:100%; min-width:0; padding:7px; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:var(--chrome-bg); color:var(--chrome-ink); font:inherit; box-sizing:border-box;}
 .demo-clock-actions{display:flex; gap:6px; margin-top:3px;}
 .demo-clock-actions .btn{flex:1; padding-inline:7px;}
 
@@ -1896,6 +1896,15 @@ select.pinput{appearance:none; cursor:pointer;}
 #app .demo-clock-control[open] .demo-clock-chevron{transform:rotate(180deg);}
 #app .demo-clock-hint{margin:10px 0 0;color:var(--chrome-ink);font-size:11px;line-height:1.5;}
 #app .demo-clock-control summary:focus-visible{outline:2px solid var(--chrome-gold);outline-offset:5px;border-radius:4px;}
+
+/* Clock fields inherit the selected event's sidebar palette. */
+#app .demo-clock-panel{gap:9px;padding:12px 0 0;margin-top:10px;border-top:1px solid color-mix(in srgb,var(--chrome-gold) 25%,transparent);border-radius:0;background:transparent;}
+#app .demo-clock-panel label{color:var(--chrome-ink-dim);font-size:10px;letter-spacing:.07em;}
+#app .demo-clock-panel :is(select,input){padding:10px;font-size:12px;line-height:1.5;border:1px solid color-mix(in srgb,var(--chrome-gold) 35%,transparent);border-radius:10px;background:color-mix(in srgb,var(--chrome-bg) 88%,var(--chrome-gold));color:var(--chrome-ink);color-scheme:dark;accent-color:var(--chrome-gold);}
+#app .demo-clock-panel select option{background:var(--chrome-bg);color:var(--chrome-ink);}
+#app .demo-clock-panel :is(select,input):focus-visible{outline:2px solid var(--chrome-gold);outline-offset:2px;}
+#app .demo-clock-actions .btn{border-color:color-mix(in srgb,var(--chrome-gold) 45%,transparent);border-radius:9px;color:var(--chrome-ink);}
+#app .demo-clock-actions #demo-clock-apply{background:var(--chrome-gold);color:var(--chrome-bg);font-weight:750;}
 
 </style>
 </head>
@@ -8159,7 +8168,7 @@ function renderShell(){
   app.innerHTML = `
     <nav class="sidebar" aria-label="Main navigation">
       <button class="brand" id="logo-btn-desktop" aria-label="Event Ops Event Operations home">
-        <span class="brand-mark" aria-hidden="true">V<span>&amp;</span>S</span>
+        <span class="brand-mark" aria-hidden="true">A<span>&amp;</span>J</span>
         <span class="brand-text">
           <span class="brand-title">Alex &amp; Jordan</span>
           <span class="brand-sub">Event Operations</span>
@@ -8208,7 +8217,7 @@ function renderShell(){
     <div class="app-main">
       <div class="topbar">
         <button class="brand" id="logo-btn-mobile" aria-label="Event Ops Event Operations home">
-          <span class="brand-mark" aria-hidden="true">V<span>&amp;</span>S</span>
+          <span class="brand-mark" aria-hidden="true">A<span>&amp;</span>J</span>
           <span class="brand-text">
             <span class="brand-title">Alex &amp; Jordan</span>
             <span class="brand-sub">Event Operations</span>

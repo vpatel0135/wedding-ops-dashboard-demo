@@ -1683,7 +1683,7 @@ function renderShell(){
   app.innerHTML = `
     <nav class="sidebar" aria-label="Main navigation">
       <button class="brand" id="logo-btn-desktop" aria-label="Event Ops Event Operations home">
-        <span class="brand-mark" aria-hidden="true">V<span>&amp;</span>S</span>
+        <span class="brand-mark" aria-hidden="true">A<span>&amp;</span>J</span>
         <span class="brand-text">
           <span class="brand-title">Alex &amp; Jordan</span>
           <span class="brand-sub">Event Operations</span>
@@ -1732,7 +1732,7 @@ function renderShell(){
     <div class="app-main">
       <div class="topbar">
         <button class="brand" id="logo-btn-mobile" aria-label="Event Ops Event Operations home">
-          <span class="brand-mark" aria-hidden="true">V<span>&amp;</span>S</span>
+          <span class="brand-mark" aria-hidden="true">A<span>&amp;</span>J</span>
           <span class="brand-text">
             <span class="brand-title">Alex &amp; Jordan</span>
             <span class="brand-sub">Event Operations</span>
