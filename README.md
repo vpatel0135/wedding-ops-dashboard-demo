@@ -1,6 +1,6 @@
 # Event Operations Dashboard Demo
 
-**Live demo:** https://gray-ocean-0a1a4710f.3.azurestaticapps.net/
+**Live demo:** https://ops.sidvivah26.com/
 
 A public, interactive portfolio copy of an event operations dashboard built to coordinate a multi-day wedding. The original layout and operational workflows are retained, with a standalone fictional dataset. This repository begins with a fresh Git history.
 

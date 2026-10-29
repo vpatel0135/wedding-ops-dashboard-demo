@@ -2,7 +2,8 @@
 
 Verified October 28, 2026 (America/New_York).
 
-- Public URL: https://gray-ocean-0a1a4710f.3.azurestaticapps.net/
+- Public URL: https://ops.sidvivah26.com/
+- Azure default URL: https://gray-ocean-0a1a4710f.3.azurestaticapps.net/
 - Resource group: `rg-eus2p-wedops-01`
 - Static Web App: `stapp-eus2p-wedops-01`
 - Region: East US 2
@@ -23,4 +24,8 @@ Verification completed:
 
 The original guest-site workload was not modified. The initial temporary generic-named deployment was replaced with the wedding-ops names during this deployment; those temporary resources are not retained.
 
-This is a public portfolio demo. Edits remain in each visitor's browser, with no shared backend or production personal data. The app uses a simulated event clock by default. A custom domain and automatic deployment identity are not configured.
+This is a public portfolio demo. Edits remain in each visitor's browser, with no shared backend or production personal data. The app uses a simulated event clock by default. Automatic deployment identity is not configured.
+
+## Custom domain verification — October 29, 2026
+
+`ops.sidvivah26.com` is routed through a Netlify DNS CNAME to the Azure default hostname (TTL 300). Terraform manages the Azure custom-domain binding using CNAME delegation. The custom domain loaded the fictional portfolio dashboard over trusted HTTPS in Safari, with no certificate warning. The guest, SIT, apex and Hawaii DNS records were not changed. LinkedIn updates remain deferred until separately requested.
