@@ -1,0 +1,2 @@
+Portfolio demo: private recordings and licensed performance audio are intentionally excluded.
+The original dashboard supported event-organized playback and downloads.

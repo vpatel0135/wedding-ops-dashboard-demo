@@ -1,0 +1,7 @@
+{
+  "event_mehndi": ["18:00", "21:00"],
+  "event_vidhi": ["09:00", "14:00"],
+  "event_sangeet": ["18:00", "23:00"],
+  "event_wedding": ["09:00", "14:00"],
+  "event_reception": ["18:00", "23:00"]
+}
