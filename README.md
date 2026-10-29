@@ -39,6 +39,6 @@ node build/check_data.js
 
 ## Azure onboarding
 
-Prepared for an independently deployed Azure Static Web App in the existing landing zone, with a dedicated workload resource group. Deploy only `site/`. This repository does not provision Azure resources or deploy automatically yet. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file.
+Prepared for an independently deployed Azure Static Web App in the existing landing zone, with a dedicated workload resource group. Deploy only `site/`. `infra/main.tf` provisions the dedicated resource group and Free Static Web App. Run `bash infra/deploy.sh` in authenticated Azure Cloud Shell to build, check, apply the reviewed Terraform plan and deploy. Terraform state uses the existing landing-zone state account with a dedicated `ops-production` container. No automatic deployment identity or GitHub secret is created. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file.
 
 Real operational use with personal data would require genuine authentication, authorization and a shared persistence design before deployment.

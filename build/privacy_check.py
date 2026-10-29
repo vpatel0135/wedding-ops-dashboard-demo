@@ -3,7 +3,7 @@
 from pathlib import Path
 import re
 ROOT = Path(__file__).resolve().parent.parent
-allowed = {'.js', '.json', '.html', '.css', '.svg', '.txt', '.md', '.py', '.yml', '.gitignore'}
+allowed = {'.js', '.json', '.html', '.css', '.svg', '.txt', '.md', '.py', '.yml', '.gitignore', '.tf', '.sh', '.hcl'}
 failures = []
 for path in ROOT.rglob('*'):
     if not path.is_file() or '.git' in path.parts:

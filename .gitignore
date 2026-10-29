@@ -6,3 +6,7 @@
 *.key
 node_modules/
 __pycache__/
+
+.terraform/
+*.tfvars
+*.tfplan
