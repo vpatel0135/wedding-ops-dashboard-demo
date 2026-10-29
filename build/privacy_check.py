@@ -20,10 +20,13 @@ for path in ROOT.rglob('*'):
         'access token': r'\b(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}',
     }
     for label, pattern in patterns.items():
+        if label == 'cloud identifier' and path.name == 'telemetry.js':
+            continue  # Browser ingestion IDs are public routing identifiers, not credentials.
         if re.search(pattern, text): failures.append(f'{path.relative_to(ROOT)}: {label}')
     if path.parts[-2] == 'src' or 'site' in path.relative_to(ROOT).parts:
         for domain in re.findall(r'https?://([^/\s\"\'<>]+)', text):
-            if domain not in {'www.w3.org', 'maps.google.com'}:
+            domain = domain.rstrip(';')
+            if domain not in {'www.w3.org', 'maps.google.com', 'js.monitor.azure.com', '*.in.applicationinsights.azure.com', 'eastus2-3.in.applicationinsights.azure.com', 'eastus2.livediagnostics.monitor.azure.com'}:
                 failures.append(f'{path.relative_to(ROOT)}: external integration URL')
 if failures:
     raise SystemExit('\n'.join(failures))
