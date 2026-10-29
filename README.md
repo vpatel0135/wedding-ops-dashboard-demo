@@ -1,5 +1,7 @@
 # Event Operations Dashboard Demo
 
+**Live demo:** https://gray-ocean-0a1a4710f.3.azurestaticapps.net/
+
 A public, interactive portfolio copy of an event operations dashboard built to coordinate a multi-day wedding. The original layout and operational workflows are retained, with a standalone fictional dataset. This repository begins with a fresh Git history.
 
 ## Explore the dashboard
@@ -39,6 +41,8 @@ node build/check_data.js
 
 ## Azure onboarding
 
-Prepared for an independently deployed Azure Static Web App in the existing landing zone, with a dedicated workload resource group. Deploy only `site/`. `infra/main.tf` provisions the dedicated resource group and Free Static Web App. Run `bash infra/deploy.sh` in authenticated Azure Cloud Shell to build, check, apply the reviewed Terraform plan and deploy. Terraform state uses the existing landing-zone state account with a dedicated `ops-production` container. No automatic deployment identity or GitHub secret is created. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file.
+The Azure workload uses resource group `rg-eus2p-wedops-01` and Free Static Web App `stapp-eus2p-wedops-01` in the existing landing zone. Deploy only `site/`. `infra/main.tf` provisions the dedicated resource group and Free Static Web App. Run `bash infra/deploy.sh` in authenticated Azure Cloud Shell to build, check, apply the reviewed Terraform plan and deploy. Terraform state uses the existing landing-zone state account with a dedicated `ops-production` container. No automatic deployment identity or GitHub secret is created. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file.
 
 Real operational use with personal data would require genuine authentication, authorization and a shared persistence design before deployment.
+
+See [deployment verification](docs/deployment.md) for the live configuration and checks.
