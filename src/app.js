@@ -45,7 +45,7 @@ const TASKS_RESET_MIGRATION_VERSION = "2026-08-20-v1";
 
 const VENUE_TIMELINE_RESET_MIGRATION_VERSION = "2026-08-21-v1";
 
-const TIMELINE_SHEET_IMPORT_MIGRATION_VERSION = "2030-06-13-ceremony-10am";
+const TIMELINE_SHEET_IMPORT_MIGRATION_VERSION = "2030-06-13-ceremony-10am-v2";
 const CHECKLIST_TASK_IMPORT_MIGRATION_VERSION = "2026-08-28-v1";
 
 const ALL_AUDIO_DOWNLOAD_URL = "assets/demo-audio-notice.txt";
@@ -1677,6 +1677,31 @@ function sidebarEventSpotlightHtml(){
     <span class="side-spotlight-date">${fmtDate(celebrationStart(event),{month:'short',day:'numeric'})} <span aria-hidden="true">·</span> ${fmtTime(celebrationStart(event))}</span>`;
 }
 
+function demoClockControlHtml(scope){
+  const suffix = scope === "mobile" ? "-mobile" : "";
+  const open = scope === "desktop" && state.simDate ? " open" : "";
+  return `<details class="demo-clock-control" data-demo-clock-scope="${scope}"${open}>
+    <summary><span class="demo-badge-dot" aria-hidden="true"></span><span>Try the Demo Clock<small>${state.simDate ? `${fmtDate(now(),{month:'short',day:'numeric'})} · ${fmtTime(now())}` : 'Choose an event moment'}</small></span><span class="demo-clock-chevron" aria-hidden="true">⌄</span></summary>
+    <p class="demo-clock-hint">Jump through the events to see live schedules, tasks, and seating change.</p>
+    <div class="demo-clock-panel">
+      <label for="demo-clock-preset${suffix}">Jump to</label>
+      <select id="demo-clock-preset${suffix}" data-demo-clock-preset>
+        <option value="">Choose a moment…</option>
+        <option value="2030-06-13T18:15">Mehndi · 6:15 PM</option>
+        <option value="2030-06-14T10:00">Vidhi · 10:00 AM</option>
+        <option value="2030-06-14T19:30">Sangeet · 7:30 PM</option>
+        <option value="2030-06-15T10:15">Wedding · 10:15 AM</option>
+        <option value="2030-06-15T12:05">Photo Groups · 12:05 PM</option>
+        <option value="2030-06-15T19:10">Reception Seating · 7:10 PM</option>
+        <option value="2030-06-15T20:10">Reception Program · 8:10 PM</option>
+      </select>
+      <label for="demo-clock-custom${suffix}">Custom date &amp; time</label>
+      <input id="demo-clock-custom${suffix}" data-demo-clock-custom type="datetime-local" value="${localDateTimeValue(now())}">
+      <div class="demo-clock-actions"><button class="btn btn-sm" data-demo-clock-apply>Apply</button><button class="btn btn-sm" data-demo-clock-live>Real Time</button></div>
+    </div>
+  </details>`;
+}
+
 function renderShell(){
   const app = document.getElementById("app");
   app.className = opsThemeClass();
@@ -1692,26 +1717,7 @@ function renderShell(){
       <div class="side-wedding-date">June 13–16, 2030</div>
       <section class="side-event-spotlight" id="side-event-spotlight" aria-label="Event spotlight">${sidebarEventSpotlightHtml()}</section>
         ${isPreviewMode() ? `
-        <details class="demo-clock-control" ${state.simDate?'open':''}>
-          <summary><span class="demo-badge-dot" aria-hidden="true"></span><span>Try the Demo Clock<small>${state.simDate ? `${fmtDate(now(),{month:'short',day:'numeric'})} · ${fmtTime(now())}` : 'Choose an event moment'}</small></span><span class="demo-clock-chevron" aria-hidden="true">⌄</span></summary>
-          <p class="demo-clock-hint">Jump through the events to see live schedules, tasks, and seating change.</p>
-          <div class="demo-clock-panel">
-            <label for="demo-clock-preset">Jump to</label>
-            <select id="demo-clock-preset">
-              <option value="">Choose a moment…</option>
-              <option value="2030-06-13T18:15">Mehndi · 6:15 PM</option>
-              <option value="2030-06-14T10:00">Vidhi · 10:00 AM</option>
-              <option value="2030-06-14T19:30">Sangeet · 7:30 PM</option>
-              <option value="2030-06-15T10:15">Wedding · 10:15 AM</option>
-              <option value="2030-06-15T12:05">Photo Groups · 12:05 PM</option>
-              <option value="2030-06-15T19:10">Reception Seating · 7:10 PM</option>
-              <option value="2030-06-15T20:10">Reception Program · 8:10 PM</option>
-            </select>
-            <label for="demo-clock-custom">Custom date &amp; time</label>
-            <input id="demo-clock-custom" type="datetime-local" value="${localDateTimeValue(now())}">
-            <div class="demo-clock-actions"><button class="btn btn-sm" id="demo-clock-apply">Apply</button><button class="btn btn-sm" id="demo-clock-live">Real Time</button></div>
-          </div>
-        </details>
+        ${demoClockControlHtml("desktop")}
         ` : ""}
       <div class="side-nav-heading">Your event guide</div>
       ${navItems().map(n=>`
@@ -1743,6 +1749,7 @@ function renderShell(){
           <button class="icon-btn" id="manage-wedding-btn-mobile" aria-label="Manage Wedding">${ICONS.settings}</button>
         </div>
       </div>
+      ${isPreviewMode() ? `<div class="mobile-demo-clock">${demoClockControlHtml("mobile")}</div>` : ""}
       ${opsInstallBannerHtml()}
       <main id="view-mission" class="view"></main>
       <main id="view-timeline" class="view"></main>
@@ -1792,10 +1799,6 @@ function wireShellEvents(){
   const search2 = document.getElementById("global-search-btn-mobile");
   if(search1) search1.addEventListener("click", openSearch);
   if(search2) search2.addEventListener("click", openSearch);
-  const preset = document.getElementById("demo-clock-preset");
-  const custom = document.getElementById("demo-clock-custom");
-  const apply = document.getElementById("demo-clock-apply");
-  const live = document.getElementById("demo-clock-live");
   function setDemo(value){
     if(!value) return;
     const d = new Date(value);
@@ -1805,13 +1808,19 @@ function wireShellEvents(){
     state.view = "mission"; state.timelineEventId = null; state.missionEventId = null;
     renderShell(); renderActiveView();
   }
-  if(preset) preset.addEventListener("change",()=>setDemo(preset.value));
-  if(apply) apply.addEventListener("click",()=>setDemo(custom.value));
-  if(live) live.addEventListener("click",()=>{
-    state.simDate = null;
-    try{ localStorage.removeItem(LS_KEYS.SIM_DATE); }catch(e){}
-    state.view = "mission"; state.timelineEventId = null; state.missionEventId = null;
-    renderShell(); renderActiveView();
+  document.querySelectorAll(".demo-clock-control").forEach(clock=>{
+    const preset = clock.querySelector("[data-demo-clock-preset]");
+    const custom = clock.querySelector("[data-demo-clock-custom]");
+    const apply = clock.querySelector("[data-demo-clock-apply]");
+    const live = clock.querySelector("[data-demo-clock-live]");
+    if(preset) preset.addEventListener("change",()=>setDemo(preset.value));
+    if(apply) apply.addEventListener("click",()=>setDemo(custom.value));
+    if(live) live.addEventListener("click",()=>{
+      state.simDate = null;
+      try{ localStorage.removeItem(LS_KEYS.SIM_DATE); }catch(e){}
+      state.view = "mission"; state.timelineEventId = null; state.missionEventId = null;
+      renderShell(); renderActiveView();
+    });
   });
 }
 

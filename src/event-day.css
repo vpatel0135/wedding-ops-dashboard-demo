@@ -288,7 +288,7 @@
 #app .demo-clock-panel select option{background:var(--chrome-bg);color:var(--chrome-ink);}
 #app .demo-clock-panel :is(select,input):focus-visible{outline:2px solid var(--chrome-gold);outline-offset:2px;}
 #app .demo-clock-actions .btn{border-color:color-mix(in srgb,var(--chrome-gold) 45%,transparent);border-radius:9px;color:var(--chrome-ink);}
-#app .demo-clock-actions #demo-clock-apply{background:var(--chrome-gold);color:var(--chrome-bg);font-weight:750;}
+#app .demo-clock-actions [data-demo-clock-apply]{background:var(--chrome-gold);color:var(--chrome-bg);font-weight:750;}
 
 /* A landscape phone can be wider than the desktop breakpoint while still being
    too short for the fixed sidebar. Keep the compact shell at phone heights. */
@@ -306,3 +306,10 @@
 #app .demo-clock-panel{min-width:0;max-width:100%;overflow:hidden;box-sizing:border-box;}
 #app .demo-clock-panel :is(select,input){display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;}
 #app .demo-clock-panel input[type="datetime-local"]{-webkit-appearance:none;appearance:none;font-size:11px;}
+
+/* The desktop clock lives in the sidebar, so mobile needs its own compact
+   entry point. Keep it visible directly below the sticky header. */
+#app .mobile-demo-clock{display:block;width:100%;max-width:960px;margin:0 auto;padding:12px 16px 0;position:relative;z-index:2;}
+#app .mobile-demo-clock .demo-clock-control{margin:0;padding:11px 12px;background:var(--chrome-bg);border-color:var(--chrome-gold);box-shadow:0 10px 24px -18px #000;}
+#app .mobile-demo-clock .demo-clock-control summary{font-size:12px;}
+@media (min-width:860px) and (min-height:651px){#app .mobile-demo-clock{display:none;}}
