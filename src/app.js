@@ -5,6 +5,7 @@
 
 const LS_KEYS = {
   SIM_DATE: "ops_demo_v1_sim_date",       // ISO string or null (null = real time)
+  SIM_DATE_DEFAULT_MIGRATION: "ops_demo_v1_sim_date_default_migration",
   REAL_CLOCK: "ops_demo_v1_real_clock",   // "1" once someone explicitly chooses the real production clock
 
   DATA_OVERRIDE: "ops_demo_v1_data_override", // JSON snapshot if imported
@@ -46,6 +47,7 @@ const TASKS_RESET_MIGRATION_VERSION = "2026-08-20-v1";
 const VENUE_TIMELINE_RESET_MIGRATION_VERSION = "2026-08-21-v1";
 
 const TIMELINE_SHEET_IMPORT_MIGRATION_VERSION = "2030-06-13-ceremony-10am-v2";
+const SIM_DATE_DEFAULT_MIGRATION_VERSION = "2030-06-15-cocktail-hour-v1";
 const CHECKLIST_TASK_IMPORT_MIGRATION_VERSION = "2026-08-28-v1";
 
 const ALL_AUDIO_DOWNLOAD_URL = "assets/demo-audio-notice.txt";
@@ -386,8 +388,15 @@ function loadPersisted(){
   if(isPreviewMode()){
     try{
       const savedDemoDate = localStorage.getItem(LS_KEYS.SIM_DATE);
-      state.simDate = savedDemoDate && !Number.isNaN(new Date(savedDemoDate).getTime()) ? savedDemoDate : "2030-06-15T10:00:00";
-    }catch(e){ state.simDate = "2030-06-15T10:00:00"; }
+      const defaultMigration = localStorage.getItem(LS_KEYS.SIM_DATE_DEFAULT_MIGRATION);
+      if(defaultMigration !== SIM_DATE_DEFAULT_MIGRATION_VERSION){
+        state.simDate = "2030-06-15T18:05:00";
+        localStorage.setItem(LS_KEYS.SIM_DATE, state.simDate);
+        localStorage.setItem(LS_KEYS.SIM_DATE_DEFAULT_MIGRATION, SIM_DATE_DEFAULT_MIGRATION_VERSION);
+      } else {
+        state.simDate = savedDemoDate && !Number.isNaN(new Date(savedDemoDate).getTime()) ? savedDemoDate : "2030-06-15T18:05:00";
+      }
+    }catch(e){ state.simDate = "2030-06-15T18:05:00"; }
   } else {
     state.simDate = null;
   }
@@ -1692,6 +1701,7 @@ function demoClockControlHtml(scope){
         <option value="2030-06-14T19:30">Sangeet · 7:30 PM</option>
         <option value="2030-06-15T10:15">Wedding · 10:15 AM</option>
         <option value="2030-06-15T12:05">Photo Groups · 12:05 PM</option>
+        <option value="2030-06-15T18:05">Cocktail Hour · 6:05 PM</option>
         <option value="2030-06-15T19:10">Reception Seating · 7:10 PM</option>
         <option value="2030-06-15T20:10">Reception Program · 8:10 PM</option>
       </select>
