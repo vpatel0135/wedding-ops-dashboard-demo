@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent
 allowed = {'.js', '.json', '.html', '.css', '.svg', '.txt', '.md', '.py', '.yml', '.gitignore', '.tf', '.sh', '.hcl'}
 failures = []
 for path in ROOT.rglob('*'):
-    if not path.is_file() or '.git' in path.parts:
+    if not path.is_file() or '.git' in path.parts or '.terraform' in path.parts:
         continue
     if path.suffix not in allowed and path.name != '.gitignore':
         failures.append(f'{path.relative_to(ROOT)}: unreviewed file type')

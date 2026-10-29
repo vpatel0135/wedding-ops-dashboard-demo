@@ -19,7 +19,7 @@ terraform -chdir=infra init -input=false \
 terraform -chdir=infra plan -input=false -out=/tmp/ops-reviewed.tfplan
 terraform -chdir=infra apply -input=false /tmp/ops-reviewed.tfplan
 # Keep the deployment credential in process memory; never print or save it.
-export SWA_CLI_DEPLOYMENT_TOKEN="$(az staticwebapp secrets list --name stapp-eus2p-ops-01 --resource-group rg-eus2p-ops-01 --query properties.apiKey -o tsv)"
+export SWA_CLI_DEPLOYMENT_TOKEN="$(az staticwebapp secrets list --name stapp-eus2p-wedops-01 --resource-group rg-eus2p-wedops-01 --query properties.apiKey -o tsv)"
 npx --yes @azure/static-web-apps-cli@2.0.10 deploy site --env production
 unset SWA_CLI_DEPLOYMENT_TOKEN
 printf '\nDashboard URL: https://%s\n' "$(terraform -chdir=infra output -raw default_hostname)"

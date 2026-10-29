@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.0"
+      version = "= 4.81.0"
     }
   }
   backend "azurerm" {}
@@ -26,13 +26,13 @@ locals {
 }
 
 resource "azurerm_resource_group" "ops" {
-  name     = "rg-eus2p-ops-01"
+  name     = "rg-eus2p-wedops-01"
   location = "eastus2"
   tags     = local.tags
 }
 
 resource "azurerm_static_web_app" "ops" {
-  name                = "stapp-eus2p-ops-01"
+  name                = "stapp-eus2p-wedops-01"
   resource_group_name = azurerm_resource_group.ops.name
   location            = azurerm_resource_group.ops.location
   sku_tier            = "Free"
