@@ -1,17 +1,57 @@
-name: Validate public demo
-on: [push, pull_request, workflow_dispatch]
+name: Validate and deploy wedding ops demo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: python3 build/build.py
-      - run: python3 build/privacy_check.py
-      - run: node --check src/app.js
-      - run: node build/check_data.js
-      - run: git diff --exit-code -- site/index.html
+      - name: Build synthetic public artifact
+        run: python3 build/build.py
+      - name: Privacy check
+        run: python3 build/privacy_check.py
+      - name: JavaScript syntax
+        run: node --check src/app.js
+      - name: Validate demo fixtures
+        run: node build/check_data.js
+      - name: Verify committed artifact matches source
+        run: git diff --exit-code -- site/index.html
+
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: wedding-ops-production
+      url: https://ops.sidvivah26.com/
+    concurrency:
+      group: wedding-ops-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check deployment credential is configured
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: |
+          if [ -z "$SWA_CLI_DEPLOYMENT_TOKEN" ]; then
+            echo '::error::Add AZURE_STATIC_WEB_APPS_API_TOKEN to the wedding-ops-production environment secrets. Use the deployment token for stapp-eus2p-wedops-01 only.'
+            exit 1
+          fi
+      - name: Deploy validated public artifact
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: npx --yes @azure/static-web-apps-cli@2.0.10 deploy ./site --env production

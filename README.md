@@ -41,7 +41,11 @@ node build/check_data.js
 
 ## Azure onboarding
 
-The Azure workload uses resource group `rg-eus2p-wedops-01` and Free Static Web App `stapp-eus2p-wedops-01` in the existing landing zone. Deploy only `site/`. `infra/main.tf` provisions the dedicated resource group and Free Static Web App. Run `bash infra/deploy.sh` in authenticated Azure Cloud Shell to build, check, apply the reviewed Terraform plan and deploy. Terraform state uses the existing landing-zone state account with a dedicated `ops-production` container. No automatic deployment identity or GitHub secret is created. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file.
+The Azure workload uses resource group `rg-eus2p-wedops-01` and Free Static Web App `stapp-eus2p-wedops-01` in the existing landing zone. The **Validate and deploy wedding ops demo** GitHub Actions workflow builds and checks each change. Successful pushes to `main` deploy only the validated `site/` output; pull requests validate without deployment credentials. Use **Actions → Validate and deploy wedding ops demo → Run workflow** to redeploy `main` manually.
+
+One-time setup: add the existing app's deployment token as the `AZURE_STATIC_WEB_APPS_API_TOKEN` secret in the GitHub environment `wedding-ops-production`. The credential belongs only to `stapp-eus2p-wedops-01`; do not use the guest app's token. Tokens must never be committed, printed, or placed in workflow inputs. Deployment fails clearly when the secret is absent. Review or roll back through Git commits and rerun the workflow.
+
+`infra/main.tf` manages the dedicated Azure resources separately. Terraform state uses the existing landing-zone state account with a dedicated `ops-production` container. Content releases do not run Terraform or change DNS. Hosting configuration supplies security headers; inline scripts/styles remain permitted because the retained app is built as a self-contained HTML file. The older `infra/deploy.sh` is a bootstrap reference, not the routine release path.
 
 Real operational use with personal data would require genuine authentication, authorization and a shared persistence design before deployment.
 
