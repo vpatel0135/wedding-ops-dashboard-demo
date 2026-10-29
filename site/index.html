@@ -1888,6 +1888,15 @@ select.pinput{appearance:none; cursor:pointer;}
 #app #contacts-groups .vcard:hover{border-color:var(--teal);background:var(--card);}
 @media(max-width:600px){#app #contacts-groups .vcard{grid-template-columns:40px minmax(0,1fr);padding:16px;gap:10px 13px;}#app #contacts-groups .vcard-actions{grid-column:2;}#app #contacts-groups .vcard-name{font-size:20px;}}
 
+/* Make the interactive clock an obvious starting point for portfolio visitors. */
+#app .demo-clock-control{margin:14px 0 18px;padding:12px;border:1px solid var(--chrome-gold);border-radius:16px;background:rgba(255,255,255,.08);box-shadow:0 5px 20px rgba(0,0,0,.14);}
+#app .demo-clock-control summary{padding:0;border:0;background:transparent;color:var(--chrome-gold);font-size:13px;letter-spacing:0;gap:9px;}
+#app .demo-clock-control summary small{display:block;margin-top:5px;color:var(--chrome-ink);font-size:11px;font-weight:500;}
+#app .demo-clock-chevron{margin-left:auto;font-size:20px;transition:transform .15s;}
+#app .demo-clock-control[open] .demo-clock-chevron{transform:rotate(180deg);}
+#app .demo-clock-hint{margin:10px 0 0;color:var(--chrome-ink);font-size:11px;line-height:1.5;}
+#app .demo-clock-control summary:focus-visible{outline:2px solid var(--chrome-gold);outline-offset:5px;border-radius:4px;}
+
 </style>
 </head>
 <body>
@@ -8158,21 +8167,10 @@ function renderShell(){
       </button>
       <div class="side-wedding-date">June 13–16, 2030</div>
       <section class="side-event-spotlight" id="side-event-spotlight" aria-label="Event spotlight">${sidebarEventSpotlightHtml()}</section>
-      <div class="side-nav-heading">Your event guide</div>
-      ${navItems().map(n=>`
-        <button class="side-btn ${state.view===n.id?'active':''}" data-nav="${n.id}" aria-label="${esc(n.label)}" ${state.view===n.id?'aria-current="page"':''}>
-          <span class="side-nav-icon" aria-hidden="true">${n.icon}</span>
-          <span class="side-nav-copy"><span>${n.label}</span><small aria-hidden="true">${({mission:'What’s happening now',timeline:'Every moment, in order',tasks:'Who’s doing what',directory:'Find your people'})[n.id]||''}</small></span>
-          <span class="side-nav-arrow" aria-hidden="true">›</span>
-        </button>
-      `).join("")}
-      <button class="search-pill side-search" id="global-search-btn" aria-label="Search everything">
-        ${ICONS.search}<span>Search everything</span><span class="kbd">⌘K</span>
-      </button>
-      <div class="side-footer">
         ${isPreviewMode() ? `
         <details class="demo-clock-control" ${state.simDate?'open':''}>
-          <summary><span class="demo-badge-dot"></span>${state.simDate ? `Demo · ${fmtDate(now(),{month:'short',day:'numeric'})}, ${fmtTime(now())}` : 'Demo Clock'}</summary>
+          <summary><span class="demo-badge-dot" aria-hidden="true"></span><span>Try the Demo Clock<small>${state.simDate ? `${fmtDate(now(),{month:'short',day:'numeric'})} · ${fmtTime(now())}` : 'Choose an event moment'}</small></span><span class="demo-clock-chevron" aria-hidden="true">⌄</span></summary>
+          <p class="demo-clock-hint">Jump through the events to see live schedules, tasks, and seating change.</p>
           <div class="demo-clock-panel">
             <label for="demo-clock-preset">Jump to</label>
             <select id="demo-clock-preset">
@@ -8191,6 +8189,19 @@ function renderShell(){
           </div>
         </details>
         ` : ""}
+      <div class="side-nav-heading">Your event guide</div>
+      ${navItems().map(n=>`
+        <button class="side-btn ${state.view===n.id?'active':''}" data-nav="${n.id}" aria-label="${esc(n.label)}" ${state.view===n.id?'aria-current="page"':''}>
+          <span class="side-nav-icon" aria-hidden="true">${n.icon}</span>
+          <span class="side-nav-copy"><span>${n.label}</span><small aria-hidden="true">${({mission:'What’s happening now',timeline:'Every moment, in order',tasks:'Who’s doing what',directory:'Find your people'})[n.id]||''}</small></span>
+          <span class="side-nav-arrow" aria-hidden="true">›</span>
+        </button>
+      `).join("")}
+      <button class="search-pill side-search" id="global-search-btn" aria-label="Search everything">
+        ${ICONS.search}<span>Search everything</span><span class="kbd">⌘K</span>
+      </button>
+      <div class="side-footer">
+
         <button class="side-footer-link" id="manage-wedding-btn">${ICONS.settings} Manage</button>
       </div>
     </nav>

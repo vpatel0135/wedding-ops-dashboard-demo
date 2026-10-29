@@ -271,3 +271,12 @@
 #app #contacts-groups .circle-btn:hover{background:var(--chrome-bg-2);}
 #app #contacts-groups .vcard:hover{border-color:var(--teal);background:var(--card);}
 @media(max-width:600px){#app #contacts-groups .vcard{grid-template-columns:40px minmax(0,1fr);padding:16px;gap:10px 13px;}#app #contacts-groups .vcard-actions{grid-column:2;}#app #contacts-groups .vcard-name{font-size:20px;}}
+
+/* Make the interactive clock an obvious starting point for portfolio visitors. */
+#app .demo-clock-control{margin:14px 0 18px;padding:12px;border:1px solid var(--chrome-gold);border-radius:16px;background:rgba(255,255,255,.08);box-shadow:0 5px 20px rgba(0,0,0,.14);}
+#app .demo-clock-control summary{padding:0;border:0;background:transparent;color:var(--chrome-gold);font-size:13px;letter-spacing:0;gap:9px;}
+#app .demo-clock-control summary small{display:block;margin-top:5px;color:var(--chrome-ink);font-size:11px;font-weight:500;}
+#app .demo-clock-chevron{margin-left:auto;font-size:20px;transition:transform .15s;}
+#app .demo-clock-control[open] .demo-clock-chevron{transform:rotate(180deg);}
+#app .demo-clock-hint{margin:10px 0 0;color:var(--chrome-ink);font-size:11px;line-height:1.5;}
+#app .demo-clock-control summary:focus-visible{outline:2px solid var(--chrome-gold);outline-offset:5px;border-radius:4px;}

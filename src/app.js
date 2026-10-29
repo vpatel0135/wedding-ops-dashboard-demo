@@ -1691,21 +1691,10 @@ function renderShell(){
       </button>
       <div class="side-wedding-date">June 13–16, 2030</div>
       <section class="side-event-spotlight" id="side-event-spotlight" aria-label="Event spotlight">${sidebarEventSpotlightHtml()}</section>
-      <div class="side-nav-heading">Your event guide</div>
-      ${navItems().map(n=>`
-        <button class="side-btn ${state.view===n.id?'active':''}" data-nav="${n.id}" aria-label="${esc(n.label)}" ${state.view===n.id?'aria-current="page"':''}>
-          <span class="side-nav-icon" aria-hidden="true">${n.icon}</span>
-          <span class="side-nav-copy"><span>${n.label}</span><small aria-hidden="true">${({mission:'What’s happening now',timeline:'Every moment, in order',tasks:'Who’s doing what',directory:'Find your people'})[n.id]||''}</small></span>
-          <span class="side-nav-arrow" aria-hidden="true">›</span>
-        </button>
-      `).join("")}
-      <button class="search-pill side-search" id="global-search-btn" aria-label="Search everything">
-        ${ICONS.search}<span>Search everything</span><span class="kbd">⌘K</span>
-      </button>
-      <div class="side-footer">
         ${isPreviewMode() ? `
         <details class="demo-clock-control" ${state.simDate?'open':''}>
-          <summary><span class="demo-badge-dot"></span>${state.simDate ? `Demo · ${fmtDate(now(),{month:'short',day:'numeric'})}, ${fmtTime(now())}` : 'Demo Clock'}</summary>
+          <summary><span class="demo-badge-dot" aria-hidden="true"></span><span>Try the Demo Clock<small>${state.simDate ? `${fmtDate(now(),{month:'short',day:'numeric'})} · ${fmtTime(now())}` : 'Choose an event moment'}</small></span><span class="demo-clock-chevron" aria-hidden="true">⌄</span></summary>
+          <p class="demo-clock-hint">Jump through the events to see live schedules, tasks, and seating change.</p>
           <div class="demo-clock-panel">
             <label for="demo-clock-preset">Jump to</label>
             <select id="demo-clock-preset">
@@ -1724,6 +1713,19 @@ function renderShell(){
           </div>
         </details>
         ` : ""}
+      <div class="side-nav-heading">Your event guide</div>
+      ${navItems().map(n=>`
+        <button class="side-btn ${state.view===n.id?'active':''}" data-nav="${n.id}" aria-label="${esc(n.label)}" ${state.view===n.id?'aria-current="page"':''}>
+          <span class="side-nav-icon" aria-hidden="true">${n.icon}</span>
+          <span class="side-nav-copy"><span>${n.label}</span><small aria-hidden="true">${({mission:'What’s happening now',timeline:'Every moment, in order',tasks:'Who’s doing what',directory:'Find your people'})[n.id]||''}</small></span>
+          <span class="side-nav-arrow" aria-hidden="true">›</span>
+        </button>
+      `).join("")}
+      <button class="search-pill side-search" id="global-search-btn" aria-label="Search everything">
+        ${ICONS.search}<span>Search everything</span><span class="kbd">⌘K</span>
+      </button>
+      <div class="side-footer">
+
         <button class="side-footer-link" id="manage-wedding-btn">${ICONS.settings} Manage</button>
       </div>
     </nav>
