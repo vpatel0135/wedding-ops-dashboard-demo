@@ -289,3 +289,20 @@
 #app .demo-clock-panel :is(select,input):focus-visible{outline:2px solid var(--chrome-gold);outline-offset:2px;}
 #app .demo-clock-actions .btn{border-color:color-mix(in srgb,var(--chrome-gold) 45%,transparent);border-radius:9px;color:var(--chrome-ink);}
 #app .demo-clock-actions #demo-clock-apply{background:var(--chrome-gold);color:var(--chrome-bg);font-weight:750;}
+
+/* A landscape phone can be wider than the desktop breakpoint while still being
+   too short for the fixed sidebar. Keep the compact shell at phone heights. */
+@media (min-width:860px) and (max-height:650px){
+ #app .sidebar{display:none;}
+ #app .topbar{display:flex;}
+ #app .bottom-nav{display:flex;}
+ #app .app-main{margin-left:0;}
+ #app .view{max-width:960px;padding:20px 16px calc(var(--nav-h) + 32px + var(--safe-bottom));}
+}
+
+/* Safari's native datetime control has a large intrinsic width. Force it and
+   the demo-clock panel to honor the sidebar/card boundary. */
+#app .demo-clock-control,
+#app .demo-clock-panel{min-width:0;max-width:100%;overflow:hidden;box-sizing:border-box;}
+#app .demo-clock-panel :is(select,input){display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;}
+#app .demo-clock-panel input[type="datetime-local"]{-webkit-appearance:none;appearance:none;font-size:11px;}
