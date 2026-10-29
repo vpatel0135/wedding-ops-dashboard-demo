@@ -43,3 +43,9 @@ resource "azurerm_static_web_app" "ops" {
 output "default_hostname" {
   value = azurerm_static_web_app.ops.default_host_name
 }
+
+resource "azurerm_static_web_app_custom_domain" "ops" {
+  static_web_app_id = azurerm_static_web_app.ops.id
+  domain_name       = "ops.sidvivah26.com"
+  validation_type   = "cname-delegation"
+}
