@@ -313,4 +313,9 @@
 #app .mobile-demo-clock .demo-clock-control{margin:0;padding:11px 12px;background:var(--chrome-bg);border-color:var(--chrome-gold);box-shadow:0 10px 24px -18px #000;}
 #app .mobile-demo-clock .demo-clock-control summary{font-size:12px;}
 @media (min-width:860px) and (min-height:651px){#app .mobile-demo-clock{display:none;}}
-.portfolio-demo-banner{position:relative;z-index:10000;background:#123d70;color:white;padding:10px 18px;text-align:center;font:14px/1.4 system-ui}
+:root{--portfolio-demo-banner-height:40px}
+.portfolio-demo-banner{position:relative;z-index:10000;min-height:var(--portfolio-demo-banner-height);box-sizing:border-box;background:#123d70;color:white;padding:10px 18px;text-align:center;font:14px/1.4 system-ui}
+
+@media (min-width:860px){
+  .sidebar{top:var(--portfolio-demo-banner-height);height:calc(100vh - var(--portfolio-demo-banner-height))}
+}
