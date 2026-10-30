@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Conservative public-demo gate. Run on all tracked candidate text files."""
 from pathlib import Path
+import hashlib
 import re
 ROOT = Path(__file__).resolve().parent.parent
+APP_INSIGHTS_SDK_SHA256 = '69520f805c4960a5a1380ea67453667ab41e8afd4a4e21a8a9ae181edb93859a'
 allowed = {'.js', '.json', '.html', '.css', '.svg', '.txt', '.md', '.py', '.yml', '.gitignore', '.tf', '.sh', '.hcl'}
 failures = []
 for path in ROOT.rglob('*'):
@@ -10,6 +12,11 @@ for path in ROOT.rglob('*'):
         continue
     if path.suffix not in allowed and path.name != '.gitignore':
         failures.append(f'{path.relative_to(ROOT)}: unreviewed file type')
+        continue
+    if path.name == 'applicationinsights-web.min.js':
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != APP_INSIGHTS_SDK_SHA256:
+            failures.append(f'{path.relative_to(ROOT)}: unreviewed Application Insights SDK build')
         continue
     text = path.read_text()
     patterns = {

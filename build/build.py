@@ -14,7 +14,7 @@ assert style_match, 'Expected one inline style block'
 html = shell[:style_match.start()] + '<link rel="stylesheet" href="/styles.css">' + shell[style_match.end():]
 html, count = re.subn(
     r'<script>\s*</script>',
-    '<script src="https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js" crossorigin="anonymous"></script>\n'
+    '<script src="/applicationinsights-web.min.js"></script>\n'
     '<script src="/telemetry.js"></script>\n'
     '<script src="/app.js" defer></script>',
     html,
@@ -26,4 +26,5 @@ SITE.mkdir(exist_ok=True)
 (SITE / 'styles.css').write_text(style_match.group(1) + '\n')
 (SITE / 'app.js').write_text('\n'.join(parts) + '\n')
 (SITE / 'telemetry.js').write_text((SRC / 'telemetry.js').read_text())
+shutil.copyfile(SRC / 'vendor' / 'applicationinsights-web.min.js', SITE / 'applicationinsights-web.min.js')
 print(f'Built site/index.html ({len(html):,} characters)')
